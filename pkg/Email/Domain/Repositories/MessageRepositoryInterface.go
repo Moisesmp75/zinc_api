@@ -5,6 +5,6 @@ import (
 )
 
 type MessageRepoInterface interface {
-	Search(query string, size int, from int64, sort string) entities.EmailMessage
-	Post(emailMessaage entities.EmailMessage) entities.EmailMessage
+	Search(query string, size int, from int64, sort string) (entities.EmailMessage, error)
+	Post(emailMessaage entities.EmailMessage) (entities.EmailMessage, error)
 }
