@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"fmt"
-	"log"
 	entities "mamuro_api/pkg/Shared/Infraestructure/Persistence/Zincsearch/Entities"
 )
 
@@ -32,14 +31,12 @@ func (r *ZincsearchRepository[T]) Search(query string, size int, from int64, sor
 
 	bodyResponse, err := performHTTPPostRequest(url, RequestToString(query, size, from, sort), r.Username, r.Password)
 	if err != nil {
-		log.Println(err.Error())
 		return entities.SearchDataResponse[T]{}, err
 	}
 
 	var response entities.SearchDataResponse[T]
 
 	if err := parseJSONtoDto(bodyResponse, &response); err != nil {
-		log.Println(err.Error())
 		return entities.SearchDataResponse[T]{}, err
 	}
 
