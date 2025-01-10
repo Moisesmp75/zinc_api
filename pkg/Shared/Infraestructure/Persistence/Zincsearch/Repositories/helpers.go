@@ -98,6 +98,11 @@ func performHTTPPostRequest(url string, request string, username string, passwor
 	}
 	defer resps.Body.Close()
 
+	if resps.StatusCode < 200 || resps.StatusCode >= 300 {
+		body, _ := io.ReadAll(resps.Body)
+		return nil, fmt.Errorf("HTTP error: status code %d, response body: %s", resps.StatusCode, string(body))
+	}
+
 	bodyResponse, err := io.ReadAll(resps.Body)
 	if err != nil {
 		return nil, err

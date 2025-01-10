@@ -58,7 +58,7 @@ func zincsearchResourceToDomainEntity(entity zincEntities.Source) domainEntities
 func (r *MessageRepository) Search(query string, size int, from int64, sort string) ([]domainEntities.EmailMessage, error) {
 	result, err := r.ZincsearchRepository.Search(query, size, from, sort)
 	if err != nil {
-		return []domainEntities.EmailMessage{}, nil
+		return []domainEntities.EmailMessage{}, err
 	}
 
 	messages := make([]domainEntities.EmailMessage, len(result.Hits.Hits))
