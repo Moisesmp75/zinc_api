@@ -12,6 +12,12 @@ type MessageQueryService struct {
 	MessageRepository domainRepositories.MessageRepository
 }
 
+func NewMessageQueryService(messageRepository domainRepositories.MessageRepository) *MessageQueryService {
+	return &MessageQueryService{
+		MessageRepository: messageRepository,
+	}
+}
+
 var _ domainServices.MessageQueryService = (*MessageQueryService)(nil)
 
 func (m *MessageQueryService) Search(query queries.SearchQuery) ([]entities.EmailMessage, error) {

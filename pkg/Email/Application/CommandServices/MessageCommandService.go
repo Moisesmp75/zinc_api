@@ -11,6 +11,12 @@ type MessageCommandService struct {
 	MessageRepository domainRepositories.MessageRepository
 }
 
+func NewMessageCommandService(messageRepository domainRepositories.MessageRepository) *MessageCommandService {
+	return &MessageCommandService{
+		MessageRepository: messageRepository,
+	}
+}
+
 var _ domainServices.MessageCommandService = (*MessageCommandService)(nil)
 
 func (m *MessageCommandService) Post(command commands.PostMessageCommand) (entities.EmailMessage, error) {
