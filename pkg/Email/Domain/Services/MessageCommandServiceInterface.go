@@ -6,5 +6,5 @@ import (
 )
 
 type MessageCommandServiceInterface interface {
-	Post(command commands.PostMessageCommand) entities.EmailMessage
+	Post(command commands.PostMessageCommand) (entities.EmailMessage, error)
 }

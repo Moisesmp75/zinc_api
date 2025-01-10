@@ -6,5 +6,5 @@ import (
 )
 
 type MessageQueryServiceInterface interface {
-	Search(query queries.SearchQuery) entities.EmailMessage
+	Search(query queries.SearchQuery) ([]entities.EmailMessage, error)
 }
