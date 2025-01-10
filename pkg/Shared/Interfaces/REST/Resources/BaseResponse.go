@@ -1,5 +1,7 @@
 package resources
 
+import "encoding/json"
+
 type BaseResponse[T any] struct {
 	Success  bool
 	Message  string
@@ -44,4 +46,12 @@ func MessageResponse[T interface{}](message string, resource T) BaseResponse[T] 
 		Message:  message,
 		Resource: resource,
 	}
+}
+
+func ToJSONresponse(response any) ([]byte, error) {
+	jsonData, err := json.Marshal(response)
+	if err != nil {
+		return []byte(""), err
+	}
+	return jsonData, nil
 }

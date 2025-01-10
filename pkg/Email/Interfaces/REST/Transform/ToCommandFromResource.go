@@ -37,4 +37,6 @@ func SearchQueryResourceToQuery(resource resources.SearchQueryResource) (*domain
 	}
 
 	return result, nil
+
+	// return &domain_queries.NewSearchQuery(query, ) nil
 }

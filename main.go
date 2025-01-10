@@ -7,7 +7,7 @@ import (
 	email_command_services "mamuro_api/pkg/Email/Application/CommandServices"
 	email_query_services "mamuro_api/pkg/Email/Application/QueryServices"
 	email_repositories "mamuro_api/pkg/Email/Infraestructure/Persistence/Zincsearch/Repositories"
-	email_handlers "mamuro_api/pkg/Email/Interfaces/REST/Handlers"
+	email_handlers "mamuro_api/pkg/Email/Interfaces/REST/Handlers/Email"
 	routes "mamuro_api/pkg/Email/Interfaces/REST/Routes"
 	"net/http"
 
