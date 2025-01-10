@@ -9,10 +9,10 @@ import (
 )
 
 type MessageQueryService struct {
-	MessageRepository domainRepositories.MessageRepoInterface
+	MessageRepository domainRepositories.MessageRepository
 }
 
-var _ domainServices.MessageQueryServiceInterface = (*MessageQueryService)(nil)
+var _ domainServices.MessageQueryService = (*MessageQueryService)(nil)
 
 func (m *MessageQueryService) Search(query queries.SearchQuery) ([]entities.EmailMessage, error) {
 	result, err := m.MessageRepository.Search(query.Query, query.Size, query.From, query.Sort)

@@ -8,10 +8,10 @@ import (
 )
 
 type MessageCommandService struct {
-	MessageRepository domainRepositories.MessageRepoInterface
+	MessageRepository domainRepositories.MessageRepository
 }
 
-var _ domainServices.MessageCommandServiceInterface = (*MessageCommandService)(nil)
+var _ domainServices.MessageCommandService = (*MessageCommandService)(nil)
 
 func (m *MessageCommandService) Post(command commands.PostMessageCommand) (entities.EmailMessage, error) {
 	panic("unimplemented")

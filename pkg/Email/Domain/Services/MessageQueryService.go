@@ -5,6 +5,6 @@ import (
 	queries "mamuro_api/pkg/Email/Domain/Model/Queries"
 )
 
-type MessageQueryServiceInterface interface {
+type MessageQueryService interface {
 	Search(query queries.SearchQuery) ([]entities.EmailMessage, error)
 }

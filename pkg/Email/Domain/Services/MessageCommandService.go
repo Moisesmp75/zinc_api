@@ -5,6 +5,6 @@ import (
 	entities "mamuro_api/pkg/Email/Domain/Model/Entities"
 )
 
-type MessageCommandServiceInterface interface {
+type MessageCommandService interface {
 	Post(command commands.PostMessageCommand) (entities.EmailMessage, error)
 }

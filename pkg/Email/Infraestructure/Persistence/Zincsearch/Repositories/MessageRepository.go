@@ -11,7 +11,7 @@ type MessageRepository struct {
 	ZincsearchRepository sharedRepositories.ZincsearchRepository[zincEntities.Source]
 }
 
-var _ domainRepositories.MessageRepoInterface = (*MessageRepository)(nil)
+var _ domainRepositories.MessageRepository = (*MessageRepository)(nil)
 
 func NewMessageRepositoryInjection(zincsearchRepository sharedRepositories.ZincsearchRepository[zincEntities.Source]) *MessageRepository {
 	return &MessageRepository{
