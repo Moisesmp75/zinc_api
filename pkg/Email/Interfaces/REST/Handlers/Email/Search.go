@@ -21,14 +21,14 @@ func (c *MessageController) SearchMessage(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	messages, err := c.MessageQueryService.Search(*query)
+	messages, pagination, err := c.MessageQueryService.Search(*query)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response, err := shared_resources.ToJSONresponse(shared_resources.NewResponse(messages))
+	response, err := shared_resources.ToJSONresponse(shared_resources.NewResponsePagination(messages, pagination))
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)

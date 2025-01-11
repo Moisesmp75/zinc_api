@@ -1,4 +1,4 @@
-package resources
+package value_objects
 
 type Pagination struct {
 	TotalItems   int64
@@ -9,7 +9,7 @@ type Pagination struct {
 	HasPrevPage  bool
 }
 
-func GenerateMeta(totalItems int64, size int, from int64) *Pagination {
+func GeneratePagination(totalItems int64, size int, from int64) *Pagination {
 	totalPages := (totalItems + int64(size) - 1) / int64(size)
 	currentPage := from/int64(size) + 1
 	hasNextPage := currentPage < totalPages

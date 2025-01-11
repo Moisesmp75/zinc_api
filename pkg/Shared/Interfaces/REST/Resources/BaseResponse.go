@@ -1,6 +1,9 @@
 package resources
 
-import "encoding/json"
+import (
+	"encoding/json"
+	value_objects "mamuro_api/pkg/Shared/Domain/Model/ValueObjects"
+)
 
 type BaseResponse[T any] struct {
 	Success  bool
@@ -12,7 +15,7 @@ type BaseResponsePag[T any] struct {
 	Success    bool
 	Message    string
 	Resource   T
-	Pagination Pagination
+	Pagination value_objects.Pagination
 }
 
 func NewResponse[T interface{}](resource T) BaseResponse[T] {
@@ -23,7 +26,7 @@ func NewResponse[T interface{}](resource T) BaseResponse[T] {
 	}
 }
 
-func NewResponsePagination[T interface{}](resource T, pagination Pagination) BaseResponsePag[T] {
+func NewResponsePagination[T interface{}](resource T, pagination value_objects.Pagination) BaseResponsePag[T] {
 	return BaseResponsePag[T]{
 		Success:    true,
 		Message:    "",

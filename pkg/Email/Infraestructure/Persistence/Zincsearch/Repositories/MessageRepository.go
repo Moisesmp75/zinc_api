@@ -1,26 +1,27 @@
 package repositories
 
 import (
-	domainEntities "mamuro_api/pkg/Email/Domain/Model/Entities"
-	domainRepositories "mamuro_api/pkg/Email/Domain/Repositories"
-	zincEntities "mamuro_api/pkg/Email/Infraestructure/Persistence/Zincsearch/Entities"
-	sharedRepositories "mamuro_api/pkg/Shared/Infraestructure/Persistence/Zincsearch/Repositories"
+	domain_entities "mamuro_api/pkg/Email/Domain/Model/Entities"
+	domain_repositories "mamuro_api/pkg/Email/Domain/Repositories"
+	zinc_entities "mamuro_api/pkg/Email/Infraestructure/Persistence/Zincsearch/Entities"
+	share_value_objects "mamuro_api/pkg/Shared/Domain/Model/ValueObjects"
+	shared_repositories "mamuro_api/pkg/Shared/Infraestructure/Persistence/Zincsearch/Repositories"
 )
 
 type MessageRepository struct {
-	ZincsearchRepository sharedRepositories.ZincsearchRepository[zincEntities.Source]
+	ZincsearchRepository shared_repositories.ZincsearchRepository[zinc_entities.Source]
 }
 
-var _ domainRepositories.MessageRepository = (*MessageRepository)(nil)
+var _ domain_repositories.MessageRepository = (*MessageRepository)(nil)
 
-func NewMessageRepositoryInjection(zincsearchRepository sharedRepositories.ZincsearchRepository[zincEntities.Source]) *MessageRepository {
+func NewMessageRepositoryInjection(zincsearchRepository shared_repositories.ZincsearchRepository[zinc_entities.Source]) *MessageRepository {
 	return &MessageRepository{
 		ZincsearchRepository: zincsearchRepository,
 	}
 }
 
 func NewMessageRepository(baseUrl string, username string, password string) *MessageRepository {
-	zincsearchRepository := sharedRepositories.ZincsearchRepository[zincEntities.Source]{
+	zincsearchRepository := shared_repositories.ZincsearchRepository[zinc_entities.Source]{
 		BaseUrl:  baseUrl,
 		Username: username,
 		Password: password,
@@ -32,8 +33,8 @@ func NewMessageRepository(baseUrl string, username string, password string) *Mes
 	}
 }
 
-func zincsearchResourceToDomainEntity(entity zincEntities.Source) domainEntities.EmailMessage {
-	return domainEntities.EmailMessage{
+func zincsearchResourceToDomainEntity(entity zinc_entities.Source) domain_entities.EmailMessage {
+	return domain_entities.EmailMessage{
 		Message_ID:                entity.MessageID,
 		Date:                      entity.Date,
 		From:                      entity.From,
@@ -55,21 +56,21 @@ func zincsearchResourceToDomainEntity(entity zincEntities.Source) domainEntities
 	}
 }
 
-func (r *MessageRepository) Search(query string, size int, from int64, sort string) ([]domainEntities.EmailMessage, error) {
-	result, err := r.ZincsearchRepository.Search(query, size, from, sort)
+func (r *MessageRepository) Search(query string, size int, from int64, sort string) ([]domain_entities.EmailMessage, share_value_objects.Pagination, error) {
+	result, pagination, err := r.ZincsearchRepository.Search(query, size, from, sort)
 	if err != nil {
-		return []domainEntities.EmailMessage{}, err
+		return []domain_entities.EmailMessage{}, share_value_objects.Pagination{}, err
 	}
 
-	messages := make([]domainEntities.EmailMessage, len(result.Hits.Hits))
+	messages := make([]domain_entities.EmailMessage, len(result.Hits.Hits))
 
 	for i, data := range result.Hits.Hits {
 		messages[i] = zincsearchResourceToDomainEntity(data.Source)
 	}
 
-	return messages, nil
+	return messages, pagination, nil
 }
 
-func (r *MessageRepository) Post(emailMessage domainEntities.EmailMessage) (domainEntities.EmailMessage, error) {
-	return domainEntities.EmailMessage{}, nil
+func (r *MessageRepository) Post(emailMessage domain_entities.EmailMessage) (domain_entities.EmailMessage, error) {
+	return domain_entities.EmailMessage{}, nil
 }
