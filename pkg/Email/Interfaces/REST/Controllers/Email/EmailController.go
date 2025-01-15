@@ -1,4 +1,4 @@
-package email_controller
+package controllers
 
 import (
 	domain_services "mamuro_api/pkg/Email/Domain/Services"

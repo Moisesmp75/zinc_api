@@ -1,4 +1,4 @@
-package email_controller
+package controllers
 
 import (
 	"log"
@@ -17,21 +17,34 @@ func (c *MessageController) SearchMessage(w http.ResponseWriter, r *http.Request
 	query, err := transform.SearchQueryResourceToQuery(*resource)
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		shared_resources.HandleErrorResponse(w, http.StatusBadRequest, err.Error())
+		// errorResponse := shared_resources.ErrorResponse(err.Error())
+		// response, _ := shared_resources.ToJSONresponse(errorResponse)
+		// w.WriteHeader(http.StatusBadRequest)
+		// w.Write(response)
 		return
 	}
 
 	messages, pagination, err := c.MessageQueryService.Search(*query)
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+
+		shared_resources.HandleErrorResponse(w, http.StatusInternalServerError, err.Error())
+		// errorResponse := shared_resources.ErrorResponse(err.Error())
+		// response, _ := shared_resources.ToJSONresponse(errorResponse)
+		// w.WriteHeader(http.StatusInternalServerError)
+		// w.Write(response)
 		return
 	}
 
 	response, err := shared_resources.ToJSONresponse(shared_resources.NewResponsePagination(messages, pagination))
 	if err != nil {
 		log.Println(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		shared_resources.HandleErrorResponse(w, http.StatusInternalServerError, err.Error())
+		// errorResponse := shared_resources.ErrorResponse(err.Error())
+		// response, _ := shared_resources.ToJSONresponse(errorResponse)
+		// w.WriteHeader(http.StatusInternalServerError)
+		// w.Write(response)
 		return
 	}
 	if len(messages) == 0 {

@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"encoding/json"
 	"fmt"
 	value_objects "mamuro_api/pkg/Shared/Domain/Model/ValueObjects"
 	entities "mamuro_api/pkg/Shared/Infraestructure/Persistence/Zincsearch/Entities"
@@ -22,7 +23,24 @@ func NewZincsearchRepository[T any](baseUrl string, index string, username strin
 	}
 }
 
+func ToJSON(value any) ([]byte, error) {
+	jsonBytes, err := json.Marshal(value)
+	if err != nil {
+		return nil, err
+	}
+	return jsonBytes, nil
+}
+
 func (r *ZincsearchRepository[T]) Insert(document T) (T, error) {
+	url := fmt.Sprintf("%s/api/%s/_doc", r.BaseUrl, r.Index)
+	documentJSON, err := ToJSON(document)
+	if err != nil {
+		return document, fmt.Errorf("error converting document to JSON: %w", err)
+	}
+
+	if _, err := performHTTPPostRequest(url, string(documentJSON), r.Username, r.Password); err != nil {
+		return document, fmt.Errorf("error performing HTTP POST request: %w", err)
+	}
 
 	return document, nil
 }

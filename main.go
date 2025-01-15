@@ -7,7 +7,7 @@ import (
 	email_command_services "mamuro_api/pkg/Email/Application/CommandServices"
 	email_query_services "mamuro_api/pkg/Email/Application/QueryServices"
 	email_repositories "mamuro_api/pkg/Email/Infraestructure/Persistence/Zincsearch/Repositories"
-	email_handlers "mamuro_api/pkg/Email/Interfaces/REST/Handlers/Email"
+	email_controllers "mamuro_api/pkg/Email/Interfaces/REST/Controllers/Email"
 	routes "mamuro_api/pkg/Email/Interfaces/REST/Routes"
 	"net/http"
 
@@ -42,7 +42,7 @@ func main() {
 	messageRepository := email_repositories.NewMessageRepository(base_url, username, password)
 	messageCommandService := email_command_services.NewMessageCommandService(messageRepository)
 	messageQueryService := email_query_services.NewMessageQueryService(messageRepository)
-	messageController := email_handlers.NewMessageController(messageCommandService, messageQueryService)
+	messageController := email_controllers.NewMessageController(messageCommandService, messageQueryService)
 
 	routes.EmailSetRoutes(apiv1, messageController)
 	r.Mount("/api/v1", apiv1)

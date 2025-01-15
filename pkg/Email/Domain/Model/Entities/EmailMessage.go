@@ -1,6 +1,9 @@
 package entities
 
-import "time"
+import (
+	commands "mamuro_api/pkg/Email/Domain/Model/Commands"
+	"time"
+)
 
 type EmailMessage struct {
 	Message_ID                string
@@ -21,4 +24,14 @@ type EmailMessage struct {
 	X_origin                  string
 	X_filename                string
 	Content                   string
+}
+
+func EmailFromCommand(command commands.PostMessageCommand) *EmailMessage {
+	return &EmailMessage{
+		From:    command.From,
+		To:      command.To,
+		Subject: command.Subject,
+		Date:    command.Date,
+		Content: command.Content,
+	}
 }

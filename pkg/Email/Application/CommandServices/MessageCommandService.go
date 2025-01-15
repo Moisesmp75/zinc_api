@@ -20,5 +20,10 @@ func NewMessageCommandService(messageRepository domain_repositories.MessageRepos
 var _ domain_services.MessageCommandService = (*MessageCommandService)(nil)
 
 func (m *MessageCommandService) Post(command commands.PostMessageCommand) (entities.EmailMessage, error) {
-	panic("unimplemented")
+	entity := entities.EmailFromCommand(command)
+	result, err := m.MessageRepository.Post(*entity)
+	if err != nil {
+		return entities.EmailMessage{}, err
+	}
+	return result, nil
 }

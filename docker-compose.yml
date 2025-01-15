@@ -1,0 +1,18 @@
+
+version: '3.8'
+
+services:
+  zincsearch:
+    image: public.ecr.aws/zinclabs/zincsearch:latest
+    container_name: zincsearch_container
+    ports:
+      - "4080:4080"
+    environment:
+      - ZINC_DATA_PATH=/data
+      - ZINC_FIRST_ADMIN_USER=admin
+      - ZINC_FIRST_ADMIN_PASSWORD=Complexpass#123
+    volumes:
+      - enron:/data
+
+volumes:
+  enron:

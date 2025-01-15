@@ -1,7 +1,7 @@
 package routes
 
 import (
-	email_handlers "mamuro_api/pkg/Email/Interfaces/REST/Handlers/Email"
+	email_handlers "mamuro_api/pkg/Email/Interfaces/REST/Controllers/Email"
 
 	"github.com/go-chi/chi/v5"
 )
