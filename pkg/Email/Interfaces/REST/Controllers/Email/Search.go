@@ -11,29 +11,20 @@ import (
 func (c *MessageController) SearchMessage(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	queryParams := r.URL.Query()
-	resource := resources.NewSearchMessageQuery(queryParams.Get("query"), queryParams.Get("size"),
+	resource := resources.NewSearchMessageResource(queryParams.Get("query"), queryParams.Get("size"),
 		queryParams.Get("from"), queryParams.Get("sort"))
 
-	query, err := transform.SearchQueryResourceToQuery(*resource)
+	query, err := transform.SearchMessageResourceToQuery(*resource)
 	if err != nil {
 		log.Println(err.Error())
 		shared_resources.HandleErrorResponse(w, http.StatusBadRequest, err.Error())
-		// errorResponse := shared_resources.ErrorResponse(err.Error())
-		// response, _ := shared_resources.ToJSONresponse(errorResponse)
-		// w.WriteHeader(http.StatusBadRequest)
-		// w.Write(response)
 		return
 	}
 
 	messages, pagination, err := c.MessageQueryService.Search(*query)
 	if err != nil {
 		log.Println(err.Error())
-
 		shared_resources.HandleErrorResponse(w, http.StatusInternalServerError, err.Error())
-		// errorResponse := shared_resources.ErrorResponse(err.Error())
-		// response, _ := shared_resources.ToJSONresponse(errorResponse)
-		// w.WriteHeader(http.StatusInternalServerError)
-		// w.Write(response)
 		return
 	}
 
@@ -41,10 +32,6 @@ func (c *MessageController) SearchMessage(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		log.Println(err.Error())
 		shared_resources.HandleErrorResponse(w, http.StatusInternalServerError, err.Error())
-		// errorResponse := shared_resources.ErrorResponse(err.Error())
-		// response, _ := shared_resources.ToJSONresponse(errorResponse)
-		// w.WriteHeader(http.StatusInternalServerError)
-		// w.Write(response)
 		return
 	}
 	if len(messages) == 0 {

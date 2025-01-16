@@ -2,6 +2,7 @@ package resources
 
 import (
 	"encoding/json"
+	"io"
 	value_objects "mamuro_api/pkg/Shared/Domain/Model/ValueObjects"
 )
 
@@ -57,4 +58,13 @@ func ToJSONresponse(response any) ([]byte, error) {
 		return []byte(""), err
 	}
 	return jsonData, nil
+}
+
+func DecodeRequestBody(body io.ReadCloser, target interface{}) error {
+	decoder := json.NewDecoder(body)
+	err := decoder.Decode(target)
+	if err != nil {
+		return err
+	}
+	return nil
 }

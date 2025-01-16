@@ -8,7 +8,7 @@ import (
 	email_query_services "mamuro_api/pkg/Email/Application/QueryServices"
 	email_repositories "mamuro_api/pkg/Email/Infraestructure/Persistence/Zincsearch/Repositories"
 	email_controllers "mamuro_api/pkg/Email/Interfaces/REST/Controllers/Email"
-	routes "mamuro_api/pkg/Email/Interfaces/REST/Routes"
+	email_routes "mamuro_api/pkg/Email/Interfaces/REST/Routes"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -44,7 +44,7 @@ func main() {
 	messageQueryService := email_query_services.NewMessageQueryService(messageRepository)
 	messageController := email_controllers.NewMessageController(messageCommandService, messageQueryService)
 
-	routes.EmailSetRoutes(apiv1, messageController)
+	email_routes.EmailSetRoutes(apiv1, messageController)
 	r.Mount("/api/v1", apiv1)
 
 	log.Println("Running on port: 3000")

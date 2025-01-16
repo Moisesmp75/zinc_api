@@ -1,14 +1,14 @@
 package resources
 
-type SearchQueryResource struct {
+type SearchMessageResource struct {
 	Query string
 	Size  string
 	From  string
 	Sort  string
 }
 
-func NewSearchMessageQuery(query string, size string, from string, sort string) *SearchQueryResource {
-	return &SearchQueryResource{
+func NewSearchMessageResource(query string, size string, from string, sort string) *SearchMessageResource {
+	return &SearchMessageResource{
 		Query: query,
 		Size:  size,
 		From:  from,
