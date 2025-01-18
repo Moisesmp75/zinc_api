@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
 	"log"
 
 	email_command_services "mamuro_api/pkg/Email/Application/CommandServices"
@@ -22,6 +24,22 @@ var (
 	base_url = "http://localhost:4080"
 )
 
+//go:embed web/dist
+var embedFrontend embed.FS
+
+func static(r *chi.Mux) {
+	front, err := fs.Sub(embedFrontend, "web/dist")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	staticServer := http.FileServer(http.FS(front))
+
+	r.Get("/*", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		staticServer.ServeHTTP(w, r)
+	}))
+}
+
 func main() {
 	r := chi.NewRouter()
 
@@ -30,10 +48,10 @@ func main() {
 		AllowedMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 	}))
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World!"))
-	})
-
+	// r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	w.Write([]byte("Hello World!"))
+	// })
+	static(r)
 	apiv1 := chi.NewRouter()
 
 	apiv1.Use(middleware.AllowContentType("application/json", "text/xml"))

@@ -8,7 +8,7 @@ import (
 
 func EmailSetRoutes(r *chi.Mux, messageController *email_handlers.MessageController) {
 	r.Route("/email", func(r chi.Router) {
-		r.Post("", messageController.Post)
+		r.Post("/", messageController.Post)
 		r.Get("/search", messageController.SearchMessage)
 	})
 }
