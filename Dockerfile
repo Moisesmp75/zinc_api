@@ -14,7 +14,7 @@ FROM golang:1.21.3 as backend-builder
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY go.mod go.sum ./2
 
 RUN go mod tidy
 

@@ -1,4 +1,4 @@
-const main_url = "http://localhost:3000/"
+const main_url = window.parent.location.href;
 const url = `${main_url}api/v1/email`
 
 export class MailService {
